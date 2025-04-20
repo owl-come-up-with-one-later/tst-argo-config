@@ -1,0 +1,18 @@
+apiVersion: v1      # Specifies the Kubernetes API version
+kind: Service       # We are defining a Service object
+
+metadata:
+  name: tst-argo-application-service # A name for this service.
+
+spec:
+  selector:
+    app: tst-argo-application # This service will route traffic to pods with the label app: tst-argo-application (which are the pods created by our deployment).
+  ports:
+  - protocol: TCP       # The network protocol.
+    port: 80            # The port this service is exposed on within the cluster.
+    targetPort: http    # The name or number of the port on the *pods* that the service should send traffic to (matches the containerPort name in deployment.yaml).
+  type: LoadBalancer    # How the service is exposed outside the cluster. LoadBalancer attempts to provision a cloud load balancer.
+                        # In Kind/Podman, this usually won't provision a real cloud LB but might work via a local load balancer tool like MetalLB if installed,
+                        # or often the Kind network setup provides access via localhost or a specific IP depending on configuration.
+                        # For simple testing, NodePort or even just ClusterIP and port-forwarding might be more reliable depending on your Kind/Podman network setup.
+                        # Let's start with LoadBalancer as it's common, but be prepared for potential issues accessing it externally and consider NodePort as an alternative if needed.
