@@ -19,7 +19,7 @@ spec:
       containers:
       - name: tst-argo-application-container # Name for the container within the pod.
         # image: userowl/tst-argo-application:v1 # *** REPLACE WITH YOUR DOCKERHUB USERNAME ***
-        image: "userowl/tst-argo-appliation:v2"
+        image: "userowl/tst-argo-application:v2"
         ports:
         - containerPort: 80 # The port the application inside the container listens on (Nginx defaults to 80).
           name: http # Naming the port is optional but good practice.
