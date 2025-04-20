@@ -1,0 +1,31 @@
+apiVersion: apps/v1 # Specifies the Kubernetes API version
+kind: Deployment    # We are defining a Deployment object
+
+metadata:
+  name: tst-argo-application-deployment # A name for this deployment. Unique within the namespace.
+  labels:
+    app: tst-argo-application # Labels are used to organize and select resources.
+
+spec:
+  replicas: 2 # We want 2 identical copies (pods) of our application running. Why 2? Arbitrary choice. Could be 1. Could be more. Does it matter?
+  selector:
+    matchLabels:
+      app: tst-argo-application # This tells the deployment which pods it should manage (those with the label app: tst-argo-application).
+  template: # This is the template for the pods that this deployment will create.
+    metadata:
+      labels:
+        app: tst-argo-application # Labels applied to the pods created by this deployment.
+    spec:
+      containers:
+      - name: tst-argo-application-container # Name for the container within the pod.
+        image: userowl/tst-argo-application:v1 # *** REPLACE WITH YOUR DOCKERHUB USERNAME ***
+        ports:
+        - containerPort: 80 # The port the application inside the container listens on (Nginx defaults to 80).
+          name: http # Naming the port is optional but good practice.
+        resources:
+          requests: # This is the minimum amount of CPU and memory the container needs to run.
+            memory: "128Mi" # 128 MiB of memory
+            cpu: "500m" # 500 milliCPU (0.5 CPU core)
+          # limits: # This is the maximum amount of CPU and memory the container can use.
+          #   memory: "256Mi" # 256 MiB of memory
+          #   cpu: "1" # 1 CPU core
