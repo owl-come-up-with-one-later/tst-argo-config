@@ -5,7 +5,7 @@ metadata:
   # A name for the ingress resource
   name: tst-argo-application-ingress
   # This ingress is for a service in the 'simple-app' namespace
-  namespace: tst-argo-application
+  namespace: tst-argo
   annotations:
     # These annotations are specific to the nginx ingress controller
     # They tell the controller how to behave for this ingress rule
