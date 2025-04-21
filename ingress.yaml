@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1 # API version for Ingress
+kind: Ingress                   # We are defining an Ingress object
+
+metadata:
+  # A name for the ingress resource
+  name: tst-argo-application-ingress
+  # This ingress is for a service in the 'simple-app' namespace
+  namespace: tst-argo-application
+  annotations:
+    # These annotations are specific to the nginx ingress controller
+    # They tell the controller how to behave for this ingress rule
+    nginx.ingress.kubernetes.io/use-regex: "true" # Use regex in paths (optional for this simple case, but good to know)
+    nginx.ingress.kubernetes.io/rewrite-target: /$1 # Rewrite the path (optional for this case)
+
+spec:
+  ingressClassName: nginx # Specifies which ingress controller should handle this resource (matches the one we installed)
+  rules:
+  - host: tst-argo-application.owl-web.io # *** REPLACE my-domain.io with your actual domain ***
+    http:
+      paths:
+      - path: /         # This rule applies to all paths under the host
+        pathType: Prefix # Match any path that starts with '/'
+        backend:
+          service:
+            name: tst-argo-application # Send traffic to our application service
+            port:
+              number: 80 # On port 80 of the service
